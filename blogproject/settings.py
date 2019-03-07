@@ -11,20 +11,25 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
+STATIC_URL='/static/'
+
+STATICFILES_DIRS=(
+    os.path.join(BASE_DIR,'static'),
+)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '+5@c%)=tr+he%1rr%2jav1(xq1cjtayl_1_plcj^07q&v0xv**'
-
+#SECRET_KEY = '+5@c%)=tr+he%1rr%2jav1(xq1cjtayl_1_plcj^07q&v0xv**'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY','+5@c%)=tr+he%1rr%2jav1(xq1cjtayl_1_plcj^07q&v0xv**')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
+#DEBUG = True
+DEBUG = bool(os.environ.get('DJANGO_DEBUG',True))
 ALLOWED_HOSTS = []
 
 
@@ -38,10 +43,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blogapp.apps.BlogappConfig',
-    'portfolio.apps.PortfolioConfig',
+    'portfolio.apps.PortfolioConfig', 
+    'accounts.apps.AccountsConfig', 
 ]
 
-MIDDLEWARE = [
+MIDDLEWARE = [ 
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -56,7 +62,7 @@ ROOT_URLCONF = 'blogproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['blogproject/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -122,8 +128,10 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'portfolio','static')
+    os.path.join(BASE_DIR, 'portfolio','static'),
+    os.path.join(BASE_DIR, 'blogproject','static'),
 ]#static 파일들이 현재 어디에 있는지를 쓰는 곳
+
 
 STATIC_ROOT = os.path.join(BASE_DIR,'static')
 # static 파일들이 어디로 모일 것인지를 쓰는 곳, static폴더로 모을거야!
