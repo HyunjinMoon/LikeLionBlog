@@ -12,10 +12,3 @@ urlpatterns = [
     path('portfolio/',portfolio.views.portfolio,name='portfolio'),
     path('accounts/',include('accounts.urls')),
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
-
-# 고냥 추가
-if settings.DEBUG:
-    import debug_toolbar
-    urlpatterns = [
-        url(r'^__debug__/', include(debug_toolbar.urls)),
-    ] + urlpatterns
